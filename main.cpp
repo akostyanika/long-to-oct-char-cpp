@@ -28,39 +28,56 @@ void negative_test() {
   long l3 = 0b1111000111000111000111000111000111000111000111000111000111000111;
 
   ltoao(l1, &as_string);
+  printf("unsigned\n");
   printf("%22lu\n%s\n", l1, as_string);
 
   ltoao(l2, &as_string);
+  printf("signed negative\n");
   printf("%22ld\n%s\n", l2, as_string);
 
   ltoao(l3, &as_string);
+  printf("signed negative\n");
   printf("%22ld\n%s\n", l3, as_string);
 }
 
-void longs_example() {
+void signed_vs_unsigned_long_representation() {
   long l1 = 0b1111111111111111111111111111111111111111111111111111111111111111;
+  unsigned long ul1 = 0b1111111111111111111111111111111111111111111111111111111111111111;
   long l2 = 0b1000000000000000000000000000000000000000000000000000000000000000;
-  unsigned long ul1 =  0b1111111111111111111111111111111111111111111111111111111111111111;
   unsigned long ul2 = 0b1000000000000000000000000000000000000000000000000000000000000000;
+  long l3 = 0b1000000000000000000000000000000000000000000000000000000000000001;
+  unsigned long ul3 = 0b1000000000000000000000000000000000000000000000000000000000000001;
 
-  std::cout << l1 << std::endl;
-  std::cout << l2 << std::endl;
-  std::cout << ul1 << std::endl;
-  std::cout << ul2  << std::endl;
+  std::bitset<64> l1_as_bits(l1);
+  std::bitset<64> l2_as_bits(l2);
+  std::bitset<64> l3_as_bits(l3);
+  // для long и unsigned long битовое представление одинаковое
+
+  printf("%ld\n%lu\n%s\n", l1, ul1, l1_as_bits.to_string().c_str());
+  printf("%ld\n%lu\n%s\n", l2, ul2, l2_as_bits.to_string().c_str());
+  printf("%ld\n%lu\n%s\n", l3, ul3, l3_as_bits.to_string().c_str());
 }
 
 void negative_long_shifting() {
   long l1 = 0b1000000000000000000000000000000000000000000000000000000000000000;
-  std::bitset<64> bit_representation_l1(l1);
+  std::bitset<64> l1_bit_representation(l1);
   long l2 = l1 >> 3;
-  std::bitset<64> bit_representation_l2(l2);
+  std::bitset<64> l2_bit_representation(l2);
 
-  printf("%ld\n%s\n", l1, bit_representation_l1.to_string().c_str());
-  printf("%ld\n%s\n", l2, bit_representation_l2.to_string().c_str());
+  printf("%ld\n%s\n", l1, l1_bit_representation.to_string().c_str());
+  printf("%ld\n%s\n", l2, l2_bit_representation.to_string().c_str());
 }
 
 int main() {
-  printf("");
-  printf("Сдвиг отрицательного long\n");
+  printf("Обработка long со знаком и без знака\n");
+  signed_vs_unsigned_long_representation();
+  printf("\n");
+
+  printf("Побитовый сдвиг отрицательного long\n");
   negative_long_shifting();
+  printf("\n");
+
+  printf("Negative test\n");
+  negative_test();
+  printf("\n");
 }
